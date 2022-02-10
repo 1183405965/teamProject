@@ -1,4 +1,4 @@
-package cn.bookstore.pojo;
+package cn.team.bookstore.pojo;
 
 public class OrderItem {
     private String orderItemId;     //主键

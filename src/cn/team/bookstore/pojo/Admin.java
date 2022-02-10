@@ -1,4 +1,4 @@
-package cn.bookstore.pojo;
+package cn.team.bookstore.pojo;
 //管理员
 public class Admin {
     private String adminId;     //主键id

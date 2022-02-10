@@ -1,4 +1,4 @@
-package cn.bookstore.pojo;
+package cn.team.bookstore.pojo;
 //书的实体类
 public class Book {
     private String bid;         //主键id

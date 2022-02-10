@@ -1,4 +1,4 @@
-package cn.bookstore.pojo;
+package cn.team.bookstore.pojo;
 
 import java.util.List;
 /*分类模块的实体类*/

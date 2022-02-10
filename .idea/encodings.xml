@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/controller/GoodServlet.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/controller/QtGoodServlet.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/controller/QtUserServlet.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/controller/UserServlet.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/dao/BaseDao.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/dao/GoodDao.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/dao/UserDao.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/dao/impl/BaseDaoImp.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/dao/impl/GoodDaoImp.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/dao/impl/UserDaoImp.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/dao/tools/DBPool.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/filter/CarFilter.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/filter/EncodingFilter.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/filter/PermissionFilter.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/pojo/CarBean.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/pojo/Good.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/pojo/QtUser.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/pojo/User.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/service/GoodService.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/service/UserService.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/service/impl/GoodServiceImg.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/service/impl/UserServiceImp.java" charset="GBK" />
+  </component>
+</project>

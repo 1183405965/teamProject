@@ -1,4 +1,4 @@
-package cn.bookstore.pojo;
+package cn.team.bookstore.pojo;
 //用户类
 public class User {
     // 对应数据库数据
