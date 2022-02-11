@@ -1,13 +1,13 @@
 package cn.bookstore.pojo;
 
 import java.util.List;
-/*分类模块的实体类*/
+/*分类模块的实体类--双向自身关联，pid的父分类关联子分类，子分类关联父分类*/
 public class Category {
     private String cid;         // 主键
     private String cname;       // 分类名称
-    private Category parent;    // 父分类
+    private Category parent;    // 父分类 (pid自身关联当外键了，为空为父类)
     private String desc;        // 分类描述
-    private List<Category> children;// 子分类
+    private List<Category> children;// 子分类（从面向对象考虑，有爸爸的）
 
     public String getCid() {
         return cid;

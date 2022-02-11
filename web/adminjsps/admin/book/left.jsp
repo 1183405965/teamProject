@@ -16,15 +16,16 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
 	<link rel="stylesheet" type="text/css" href="<c:url value='/adminjsps/admin/css/book/left.css'/>">
-	<script type="text/javascript" src="<c:url value='/menu/mymenu.js'/>"></script>
+	<script type="text/javascript" src="<c:url value='/menu/mymenu.js'/>"></script>			<%--mymenu干啥用的--%>
 	<link rel="stylesheet" href="<c:url value='/menu/mymenu.css'/>" type="text/css" media="all">
 <script language="javascript">
+	/*Q6MenuBar是什么东西     图书分类为标题 */
 var bar = new Q6MenuBar("bar", "图书分类");
 
 function load() {
-	bar.colorStyle = 2;
-	bar.config.imgDir = "<c:url value='/menu/img/'/>";
-	bar.config.radioButton=true;
+	bar.colorStyle = 2;									//指定配色样式
+	bar.config.imgDir = "<c:url value='/menu/img/'/>";	//menu的图片路径 +  -
+	bar.config.radioButton=true;						//是否排斥多个一级分类
 
 	bar.add("程序设计", "Java Javascript", "/goods/adminjsps/admin/book/list.jsp", "body");
 	bar.add("程序设计", "JSP", "/goods/jsps/book/list.jsp", "body");
