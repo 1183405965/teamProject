@@ -2,6 +2,7 @@ package cn.bookstore.category.service;
 
 import cn.bookstore.pojo.Category;
 
+import java.sql.SQLException;
 import java.util.List;
 
 
@@ -9,10 +10,13 @@ public interface CategoryService {
 
     /*查询出所有分类*/
     List<Category> findAll();
+    List<Category> findByParent(String cid);
     /*添加分类*/
-    void add(Category category);
+    void add(Category category) throws SQLException;
     /*删除分类*/
-    void delete(String cid);
+    void deleteParent(String cid);
     /*修改分类*/
     void edit(Category category);
+
+
 }

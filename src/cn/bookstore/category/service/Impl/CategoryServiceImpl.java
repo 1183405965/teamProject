@@ -5,27 +5,35 @@ import cn.bookstore.category.dao.Impl.CategoryDaoImpl;
 import cn.bookstore.category.service.CategoryService;
 import cn.bookstore.pojo.Category;
 
+import java.sql.SQLException;
 import java.util.List;
 
 
 public class CategoryServiceImpl implements CategoryService {
     private CategoryDao categoryDao = new CategoryDaoImpl();
 
-
-
     @Override
     public List<Category> findAll() {
-        return categoryDao.findAll();
+        try {
+            return categoryDao.findAll();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public void add(Category category) {
+    public List<Category> findByParent(String cid) {
+        return categoryDao.findByParent(cid);
+    }
+
+    @Override
+    public void add(Category category) throws SQLException {
         categoryDao.add(category);
     }
 
     @Override
-    public void delete(String cid) {
-        categoryDao.delete(cid);
+    public void deleteParent(String cid) {
+        categoryDao.deleteParent(cid);
     }
 
     @Override

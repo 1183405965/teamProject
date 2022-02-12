@@ -9,6 +9,8 @@ public class Category {
     private String desc;        // 分类描述
     private List<Category> children;// 子分类（从面向对象考虑，有爸爸的）
 
+
+
     public String getCid() {
         return cid;
     }
@@ -46,6 +48,18 @@ public class Category {
     }
 
     public void setChildren(List<Category> children) {
+        this.children = children;
+    }
+
+
+    public Category() {
+    }
+
+    public Category(String cid, String cname, Category parent, String desc, List<Category> children) {
+        this.cid = cid;
+        this.cname = cname;
+        this.parent = parent;
+        this.desc = desc;
         this.children = children;
     }
 }

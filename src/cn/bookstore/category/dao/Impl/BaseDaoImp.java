@@ -36,19 +36,20 @@ public class BaseDaoImp implements BaseDao {
     }
 
     @Override
-    public ResultSet query(Connection connection,String sql, Object... params) throws SQLException {
+    public  ResultSet query(Connection connection,String sql, Object... params ) throws SQLException {
         PreparedStatement pst = connection.prepareStatement(sql);
         if (params != null){
+            System.out.println("参数输入");
             for (int i = 0; i < params.length; i++) {
                 pst.setObject(i+1,params[i]);
             }//用来针对pst设置参数
         }
-
         ResultSet rs = pst.executeQuery();
         //这里释放出错，rs还没有传
         //pst.close();
         return rs;
     }
+
 
     @Override
     public void update(Connection connection,String sql, Object... params) throws SQLException {

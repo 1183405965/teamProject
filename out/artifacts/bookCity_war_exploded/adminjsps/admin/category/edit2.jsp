@@ -40,10 +40,10 @@
   <body>
     <h3>修改2级分类</h3>
     <h1></h1>
-    <p style="font-weight: 900; color: red">${msg }</p>
-    <form action="<c:url value='/adminjsps/admin/category/list.jsp'/>" method="post" onsubmit="return checkForm()">
-    	<input type="hidden" name="method" value="editTwoLevel"/>
-    	<input type="hidden" name="cid" value=""/>
+    <p style="font-weight: 900; color: red">${msg }</p>				<%--修改二级分类--%>
+    <form action="<c:url value='/admin/CategoryServlet'/>" method="post" onsubmit="return checkForm()">
+    	<input type="hidden" name="method" value="editChild"/>
+    	<input type="hidden" name="cid" value="${child.cid}"/>
     	分类名称：<input type="text" name="cname" value="Java Javascript" id="cname"/><br/>
     	一级分类：<select name="pid" id="pid">
     		<option value="">===选择1级分类===</option>

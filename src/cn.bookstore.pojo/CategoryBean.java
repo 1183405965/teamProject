@@ -4,7 +4,6 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.UUID;
 
@@ -13,6 +12,12 @@ public class CategoryBean {
     public static String uuid() {
         return UUID.randomUUID().toString().replace("-", "").toUpperCase();
 }
+    public static String uuid1() {
+
+        String sql = " select count(*) FROM t_category WHERE pid is null ";
+
+        return UUID.randomUUID().toString().replace("-", "").toUpperCase();
+    }
 
     /*
      * 把一个Map中的数据映射到Category中,单个map
@@ -45,4 +50,15 @@ public class CategoryBean {
             throw new RuntimeException(e);
         }
     }
+
+   /* public static Object toBean(Map<String, String[]> parameterMap, Class<Category> categoryClass) {
+        try {
+            Object bean = categoryClass.getConstructor().newInstance();
+            ConvertUtils.register(new DateConverter(),java.util.Date.class);
+            BeanUtils.populate(bean,parameterMap);   *//*存疑，不知道干嘛的，源码没看懂*//*
+            return bean;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }*/
 }

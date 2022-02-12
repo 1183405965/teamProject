@@ -37,9 +37,9 @@
     <h3>修改1级分类</h3>
     <h1></h1>
     <p style="font-weight: 900; color: red">${msg }</p>
-    <form action="<c:url value='/adminjsps/admin/category/list.jsp'/>" method="post" onsubmit="return checkForm()">
-    	<input type="hidden" name="cid" value=""/>
-    	<input type="hidden" name="method" value="editOneLevel"/>
+    <form action="<c:url value='/admin/CategoryServlet'/>" method="post" onsubmit="return checkForm()">
+		<input type="hidden" name="method" value="editParent"/>
+		<input type="hidden" name="cid" value="${parent.cid }"/>
     	分类名称：<input type="text" name="cname" id="cname" value="程序设计"/><br/>
     	分类描述：<textarea rows="5" cols="50" id="desc" name="desc">程序设计相关图书</textarea><br/>
     	<input type="submit" value="修改分类"/>

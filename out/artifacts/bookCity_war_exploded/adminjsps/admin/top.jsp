@@ -26,8 +26,10 @@
 <div style="line-height: 10px;">
 	<span>管理员：刘备备</span>
 	<a target="_top" href="<c:url value='/adminjsps/login.jsp'/>">退出</a>
-	<span style="padding-left:50px;">
-		<a href="<c:url value='/adminjsps/admin/category/list.jsp'/>">分类管理</a>
+	<span style="padding-left:50px;">				<%--方法，查询请求，转发--%>
+		<a href="<c:url value='/admin/CategoryServlet?method=findAll'/>">分类管理</a>
+
+
 		<a href="<c:url value='/adminjsps/admin/book/main.jsp'/>">图书管理</a>
 		<a href="<c:url value='/adminjsps/admin/order/list.jsp'/>">订单管理</a>
 	</span>

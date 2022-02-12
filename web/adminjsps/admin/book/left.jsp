@@ -42,6 +42,8 @@ function load() {
 	bar.add("操作系统/系统开发", "Windows", "/goods/adminjsps/admin/book/list.jsp", "body");
 	bar.add("操作系统/系统开发", "Linux", "/goods/adminjsps/admin/book/list.jsp", "body");
 	bar.add("操作系统/系统开发", "系统开发", "/goods/adminjsps/admin/book/list.jsp", "body");
+
+						/*/admin/CategoryServlet?method=editChildPre&cid=  */
 <%--
     <c:forEach items="一级分类的pojo集合" var="item1">
 	<c:forEach items="item.二级分类属性" var="item1">
