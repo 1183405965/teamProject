@@ -70,7 +70,7 @@ public class CategoryDaoImpl implements CategoryDao {
 
     @Override
     public List<Category> findByParent(String cid) {
-        String sql = "select * from t_category where pid = ' "+cid +"'" ;   /*加了单引号查不到二级，不加单引号不识别uuid添加的主键的一级分类*/
+        String sql = " select * from t_category where pid = '"+cid+"'" + " order by orderBy";   /*加了单引号查不到二级，不加单引号不识别uuid添加的主键的一级分类*/
         List<Category> childrens = new ArrayList<>();
         ResultSet rs = null;
         Connection connection = new DBPool().getConnection();
@@ -111,7 +111,7 @@ public class CategoryDaoImpl implements CategoryDao {
         }
         try {
             connection.setAutoCommit(false);
-            baseDao.update(connection, sql,category.getCid(), category.getCname(), pid, category.getDesc());
+            baseDao.insert(connection, sql,category.getCid(), category.getCname(), pid, category.getDesc());
             connection.commit();
             //回滚
         } catch (SQLException e) {
@@ -134,12 +134,12 @@ public class CategoryDaoImpl implements CategoryDao {
     @Override
     public void deleteParent(String cid) {
         /*根据id删除id*/
-        String sql = "delete from t_category where cid=?";
+        String sql = "delete from t_category where cid = '"+cid+"'";
         Connection connection = new DBPool().getConnection();
 /*看出下面是否有子类*/
         try {
             connection.setAutoCommit(false);
-            baseDao.del(connection,sql,null);
+            baseDao.del(connection,sql);
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();

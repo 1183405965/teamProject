@@ -70,7 +70,7 @@ public class CategoryServlet extends HttpServlet {
             request.getRequestDispatcher("../adminjsps/admin/category/list.jsp").forward(request,response);
         } else {
             categoryService.deleteParent(cid);
-            request.getRequestDispatcher("../adminjsps/admin/category/list.jsp").forward(request,response);
+            findAll(request,response);
         }
 
     }
@@ -79,8 +79,11 @@ public class CategoryServlet extends HttpServlet {
         String cid = request.getParameter("cid");
         Category category = new Category();
         String cname = request.getParameter("cname");
-        String desc = request.getParameter("desc");
 
+        cname = new String(cname.getBytes("ISO-8859-1"),"UTF-8");
+        String desc = request.getParameter("desc");
+        category.setCname(cname);
+        category.setDesc(desc);
          categoryService.edit(category);
 
         request.setAttribute("child", categoryService.findByParent(cid));
@@ -98,6 +101,7 @@ public class CategoryServlet extends HttpServlet {
         Category children = new Category();
         children.setCid(CategoryBean.uuid());//设置cid
         String cname = request.getParameter("cname");
+        cname = new String(cname.getBytes("ISO-8859-1"),"UTF-8");
         String desc = request.getParameter("desc");
         String pid = request.getParameter("pid"); //一级分类
         children.setCname(cname);
@@ -153,9 +157,8 @@ public class CategoryServlet extends HttpServlet {
     public void findAll(HttpServletRequest request, HttpServletResponse response)  throws ServletException, IOException {
         List<Category> parents = categoryService.findAll();
         request.setAttribute("parents", parents);
-
         request.getRequestDispatcher("../adminjsps/admin/category/list.jsp").forward(request,response);
-       // return "/adminjsps/admin/category/list.jsp";
+
 
     }
 

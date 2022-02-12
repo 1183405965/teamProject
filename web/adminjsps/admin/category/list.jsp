@@ -41,11 +41,11 @@
 			</td>
 		</tr>--%>
 
-		<%--一级分类--%><%--添加二级，删除，修改--%>
+<%--		<jsp:useBean id="parents" scope="session" type="java.util.List"/>--%>
 		<c:forEach items="${parents}" var="parent">
 			<tr class="trOneLevel">
 				<td width="200px;">${parent.cname }</td>
-				<td>${parent.desc }</td>
+				<td>${parent.desc}</td>
 				<td width="200px;">			<%--/admin/CategoryServlet?method=addChild&pid=${parent.cid }--%>
 					<a href="<c:url value='/adminjsps/admin/category/add2.jsp'/>">添加二级分类</a>
 					<a href="<c:url value='/adminjsps/admin/category/edit.jsp'/>">修改</a>

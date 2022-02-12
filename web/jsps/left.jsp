@@ -27,7 +27,8 @@ $(function() {//jquery的函数调用，$（）是jquery的函数，function是�
 	bar.config.imgDir = "<c:url value='/menu/img/'/>";
 	bar.config.radioButton=true;
 //以下代码需要使用jstl的标签，结合一二级的菜单结构来动态生成
-/*	bar.add("程序设计", "Java Javascript", "/jsps/book/list.jsp", "body");
+	bar.add("程序设计", "Java Javascript", "/jsps/book/list.jsp", "body");
+/*
 	bar.add("程序设计", "JSP", "/jsps/book/list.jsp", "body");
 	bar.add("程序设计", "C C++ VC VC++", "/jsps/book/list.jsp", "body");
 	
@@ -43,10 +44,10 @@ $(function() {//jquery的函数调用，$（）是jquery的函数，function是�
 	bar.add("操作系统/系统开发", "Linux", "/jsps/book/list.jsp", "body");
 	bar.add("操作系统/系统开发", "系统开发", "/jsps/book/list.jsp", "body");*/
 	/*一级分类的pojo集合*/
-        <c:forEach items="${parents}" var="item1">
-       	 <c:forEach items="${parents.children}" var="item2">
+        <c:forEach items="${parents}" var="parent">
+       	 <c:forEach items="${parent.children}" var="child">
 											/*查询时候的进入，方法和id查询   /admin/CategoryServlet?method=editChildPre&cid=$ {child.cid }*/
-       	 bar.add("${parents.cnme}", "${parents.cname}", "list.jsp", "body");
+       	 bar.add("${parent.cnme}", "${parent.cname}", "/admin/CategoryServlet?method=editChildPre&cid=${child.cid}", "body");
       	  </c:forEach>
         </c:forEach>
 	$("#menu").html(bar.toString());

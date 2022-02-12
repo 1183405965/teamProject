@@ -42,6 +42,7 @@ public class BaseDaoImp implements BaseDao {
             System.out.println("参数输入");
             for (int i = 0; i < params.length; i++) {
                 pst.setObject(i+1,params[i]);
+                System.out.println(i);
             }//用来针对pst设置参数
         }
         ResultSet rs = pst.executeQuery();

@@ -46,10 +46,13 @@
     	分类名称：<input type="text" name="cname" id="cname"/><br/>
     	一级分类：<select name="pid" id="pid">   <%--一级分类cid--%>
     		<option value="">===选择1级分类===</option>
-    		<option value="1">程序设计</option>
-    		<option value="2">办公室用书</option>
-    		<option value="3">图形 图像 多媒体</option>
-    		<option value="4">操作系统/系统开发</option>
+<%-- 一级分类--%>
+		<c:forEach items="${parents }" var="parent">
+			<option value="${parent.cid }" <c:if test="${parent.cid eq pid }">selected="selected"</c:if> >
+					${parent.cname }
+			</option>
+		</c:forEach>
+
     	</select><br/>
     	分类描述：<textarea rows="5" cols="50" name="desc" id="desc"></textarea><br/>
     	<input type="submit" value="添加二级分类"/>
