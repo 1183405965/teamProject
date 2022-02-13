@@ -55,7 +55,7 @@ public List<Category> findParents()  {
     return list;
 }
 
-    @Override
+    @Override       /*根据cid找到我的子分类*/
     public List<Category> load(String cid) {
         String sql = "select * from t_category where cid = '"+cid+"'";
         Connection connection = new DBPool().getConnection();

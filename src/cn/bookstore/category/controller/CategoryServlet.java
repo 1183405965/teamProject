@@ -1,8 +1,8 @@
 package cn.bookstore.category.controller;
 
-import cn.bookstore.category.dao.BookDao;
-import cn.bookstore.category.dao.Impl.BookDaoImpl;
+import cn.bookstore.category.service.BookService;
 import cn.bookstore.category.service.CategoryService;
+import cn.bookstore.category.service.Impl.BookServiceImpl;
 import cn.bookstore.category.service.Impl.CategoryServiceImpl;
 import cn.bookstore.pojo.Category;
 import cn.bookstore.pojo.CategoryBean;
@@ -19,7 +19,7 @@ import java.util.List;
 public class CategoryServlet extends HttpServlet {
 
     private CategoryService categoryService = new CategoryServiceImpl();
-    private BookDao bookDao = new BookDaoImpl();
+    private BookService bookDao = new BookServiceImpl();
 
 
     /*需要完成的业务
@@ -59,13 +59,34 @@ public class CategoryServlet extends HttpServlet {
 
     private void editChildPre(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String cid = request.getParameter("cid");
-        request.setAttribute("id",cid);   //xiugai
-        List<Category> child = categoryService.load(cid);
+        request.setAttribute("id2",cid);                    //二级分类的cid来加载Category
+        List<Category> child = categoryService.load(cid);   //一级分类保存之给前台输出
         request.setAttribute("child", child);
-        request.setAttribute("parents", categoryService.findParents());
+        List<Category> parents = categoryService.findParents();
+        request.setAttribute("parents",parents );   //所有的父类的
         request.getRequestDispatcher("../adminjsps/admin/category/edit2.jsp").forward(request,response);
     }
+    /*根据children cid修改*/
+    private void editChild(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String pid = request.getParameter("pid");   //这里是id2 ，子类的cid  ,没有pid啊
+        Category child = new Category();   //二级分类
+        Category category = new Category();
 
+        request.getSession().getAttribute("child");
+        String cname = request.getParameter("cname");
+        String desc = request.getParameter("desc");
+//找父类一级分类
+        child.setCid(pid);
+        child.setCname(cname);
+        child.setDesc(desc);
+            category.setParent(category);
+        child.setParent(category);//parent弄进去
+        categoryService.edit(child);
+        List<Category> parents = categoryService.findAll();
+        request.getSession().setAttribute("parent",parents);
+       // request.setAttribute("child", categoryService.findByParent(cid));
+        request.getRequestDispatcher("../adminjsps/admin/category/list.jsp").forward(request,response);
+    }
     private void editParentPre(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String cid = request.getParameter("cid");
         request.setAttribute("id",cid);
@@ -73,27 +94,44 @@ public class CategoryServlet extends HttpServlet {
         request.setAttribute("editParent", parent);
         request.getRequestDispatcher("../adminjsps/admin/category/edit.jsp").forward(request,response);
     }
-
+    private void editParent(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        Category category = new Category();
+        String id = request.getParameter("cid");
+        String cname = request.getParameter("cname");
+        cname = new String(cname.getBytes("ISO-8859-1"),"UTF-8");
+        String desc = request.getParameter("desc");
+        category.setCid(id);
+        category.setCname(cname);
+        category.setDesc(desc);
+        categoryService.edit(category);
+        //  request.setAttribute("child", categoryService.findByParent(id)); //我修改父类失败了导致这里子类为空了，所以edit2可以出来数据了
+        List<Category> parents = categoryService.findAll();
+        request.getSession().setAttribute("parents",parents);
+        request.getRequestDispatcher("../adminjsps/admin/category/list.jsp").forward(request,response);
+        return;
+    }
     private void addChildPre(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         /*任务是传递*/
         String pid = request.getParameter("pid");//当前点击的父分类id
-        request.setAttribute("pid", pid);
         List<Category> parents = categoryService.findParents();         //没有子节点的父节点,
+        request.setAttribute("pid", pid);
         request.setAttribute("parents", parents);
         request.getRequestDispatcher("../adminjsps/admin/category/add2.jsp").forward(request,response);
     }
 
     private void deleteChild(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String cid = request.getParameter("cid");
-        int cbookNum = bookDao.findBookCountByCategory(cid);
+        String cid = request.getParameter("cid");    //二级分类的id
+        int cbookNum = bookDao.findBookCountByCategory(cid);    //查看二级分类下有没有书
         if(cbookNum > 0) {
             request.setAttribute("msg", "该子分类下还有图书，不能删除！");
             request.getRequestDispatcher("../adminjsps/admin/category/list.jsp").forward(request,response);
         } else {
             categoryService.deleteParent(cid);
+            List<Category> parents = categoryService.findAll();
+            request.getSession().setAttribute("parents",parents);
             request.getRequestDispatcher("../adminjsps/admin/category/list.jsp").forward(request,response);
+            return;
         }
-
     }
 
     private void deleteParent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -107,42 +145,12 @@ public class CategoryServlet extends HttpServlet {
             List<Category> parents = categoryService.findAll();
             request.setAttribute("parents", parents);
             request.getRequestDispatcher("../adminjsps/admin/category/list.jsp").forward(request,response);
-
         }
 
     }
-/*根据children cid修改*/
-    private void editChild(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String cid = request.getParameter("cid");
-        Category category = new Category();
-        String cname = request.getParameter("cname");
-        cname = new String(cname.getBytes("ISO-8859-1"),"UTF-8");
-        String desc = request.getParameter("desc");
-        category.setCname(cname);
-        category.setDesc(desc);
-         categoryService.edit(category);
 
-        request.setAttribute("child", categoryService.findByParent(cid));
-        request.getRequestDispatcher("../adminjsps/admin/category/list.jsp").forward(request,response);
 
-    }
 
-    private void editParent(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        Category category = new Category();
-        String id = request.getParameter("cid");
-        String cname = request.getParameter("cname");
-        cname = new String(cname.getBytes("ISO-8859-1"),"UTF-8");
-        String desc = request.getParameter("desc");
-        category.setCid(id);
-        category.setCname(cname);
-        category.setDesc(desc);
-        categoryService.edit(category);
-     //  request.setAttribute("child", categoryService.findByParent(id)); //我修改父类失败了导致这里子类为空了，所以edit2可以出来数据了
-        List<Category> parents = categoryService.findAll();
-        request.getSession().setAttribute("parents",parents);
-        request.getRequestDispatcher("../adminjsps/admin/category/list.jsp").forward(request,response);
-        return;
-    }
 
     /*添加二级分类*/
     private void addChild(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

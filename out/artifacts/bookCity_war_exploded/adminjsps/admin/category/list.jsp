@@ -49,7 +49,7 @@
 					<td>${child.cname }</td>
 					<td>${child.desc }</td>
 					<td width="200px;" align="right">
-						<a href="<c:url value='/admin/CategoryServlet?method2=editChildPre&cid=${child.cid }'/>">修改</a>
+						<a href="<c:url value='/admin/CategoryServlet?method2=editChildPre&cid=${child.cid}'/>">修改</a>
 						<a onclick="return confirm('您是否真要删除该二级分类？')" href="<c:url value='/admin/CategoryServlet?method=deleteChild&cid=${child.cid }'/>">删除</a>
 					</td>
 				</tr>

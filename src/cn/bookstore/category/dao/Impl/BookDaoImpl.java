@@ -13,7 +13,7 @@ public class BookDaoImpl implements BookDao{
     private BaseDao baseDao = new BaseDaoImp();
     @Override
     public int findBookCountByCategory(String cid) {
-        String sql = "select count(*) from t_book where cid=  ' "+cid +"'";
+        String sql = "select count(*) from t_book where cid = '"+cid +"'";
         Connection connection = new DBPool().getConnection();
         ResultSet rs = null;
         int nums=0;
