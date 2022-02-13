@@ -23,5 +23,5 @@ public interface CategoryService {
 
     List<Category> findParents();
 
-    Category load(String cid);
+    List<Category> load(String cid);
 }

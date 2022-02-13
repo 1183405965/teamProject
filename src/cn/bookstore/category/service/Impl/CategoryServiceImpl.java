@@ -54,7 +54,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category load(String cid) {
+    public List<Category> load(String cid) {
         return categoryDao.load(cid);
     }
 }

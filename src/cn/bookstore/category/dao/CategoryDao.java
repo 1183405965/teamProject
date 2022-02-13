@@ -16,15 +16,12 @@ public interface CategoryDao {
     /*删除分类*/
     void deleteParent(String cid);
     void deleteChild(String cid);
-
     /*修改分类*/
     void edit(Category category);
-
-
     /*查询所有一级分类*/
     List<Category> findParents();
     //加载分类，根据cid查找分类
-    Category load(String cid);
+    List<Category> load(String cid);
 
 
 

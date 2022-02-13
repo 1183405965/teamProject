@@ -56,14 +56,22 @@ public List<Category> findParents()  {
 }
 
     @Override
-    public Category load(String cid) {
+    public List<Category> load(String cid) {
         String sql = "select * from t_category where cid = '"+cid+"'";
         Connection connection = new DBPool().getConnection();
-        Category category = new Category();
+        List<Category> load = new ArrayList();
+        ResultSet rs = null;
+
         try {
             connection.setAutoCommit(false);
-            category = baseDao.load(connection, sql);
+            rs = baseDao.query(connection, sql);
             connection.commit();
+            while (rs != null && rs.next()) {
+                load.add(new Category(rs.getString(1),rs.getString(2),null,rs.getString(4),  findByParent(rs.getString(1)) ));
+            }
+            if (rs==null){
+                return null;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
@@ -74,7 +82,7 @@ public List<Category> findParents()  {
                 e2.printStackTrace();
             }
         }
-        return  category;
+        return  load;
     }
 
     @Override
@@ -198,10 +206,10 @@ public List<Category> findParents()  {
         }finally {
             try {
                 connection.close();
+                connection = null;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            connection = null;
         }
 
     }
@@ -226,10 +234,10 @@ public List<Category> findParents()  {
         }finally {
             try {
                 connection.close();
+                connection = null;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            connection = null;
         }
     }
 
@@ -239,7 +247,7 @@ public List<Category> findParents()  {
         Connection connection = new DBPool().getConnection();
         try {
             connection.setAutoCommit(false);
-            baseDao.update(connection,sql,category.getCname(),category.getParent(),category.getDesc(),category.getChildren());
+            baseDao.update(connection,sql,category.getCname(),category.getParent(),category.getDesc(),category.getCid());
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -251,10 +259,10 @@ public List<Category> findParents()  {
         }finally {
             try {
                 connection.close();
+                connection = null;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            connection = null;
         }
     }
 
