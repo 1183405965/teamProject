@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public class CategoryServiceImpl implements CategoryService {
-    private CategoryDao categoryDao = new CategoryDaoImpl();
+        private CategoryDao categoryDao =  new CategoryDaoImpl();
 
     @Override
     public List<Category> findAll() {
@@ -37,7 +37,24 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public void deleteChild(String cid) {
+        categoryDao.deleteChild(cid);
+    }
+
+
+
+    @Override
     public void edit(Category category) {
         categoryDao.edit(category);
+    }
+
+    @Override
+    public List<Category> findParents() {
+        return categoryDao.findParents();
+    }
+
+    @Override
+    public Category load(String cid) {
+        return categoryDao.load(cid);
     }
 }

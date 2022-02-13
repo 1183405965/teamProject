@@ -2,15 +2,14 @@ package cn.bookstore.category.dao.Impl;
 
 import cn.bookstore.category.dao.BaseDao;
 import cn.bookstore.category.dao.BookDao;
-import cn.bookstore.category.service.BookService;
+
 import cn.bookstore.tools.DBPool;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Wrapper;
 
-public class BookDaoImpl implements BookDao {
+public class BookDaoImpl implements BookDao{
     private BaseDao baseDao = new BaseDaoImp();
     @Override
     public int findBookCountByCategory(String cid) {

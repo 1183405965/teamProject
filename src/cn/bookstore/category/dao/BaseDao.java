@@ -1,6 +1,8 @@
 package cn.bookstore.category.dao;
 
 
+import cn.bookstore.pojo.Category;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,6 +12,6 @@ public interface BaseDao {
     ResultSet del(Connection connection, String sql, Object...params) throws SQLException;
     ResultSet query(Connection connection, String sql, Object...params) throws SQLException;
     void update(Connection connection,String sql,Object...params) throws SQLException;
-
+    Category load(Connection connection, String sql, Object...params) throws SQLException;
 
 }

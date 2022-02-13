@@ -6,12 +6,13 @@ import cn.bookstore.category.service.CategoryService;
 import cn.bookstore.category.service.Impl.CategoryServiceImpl;
 import cn.bookstore.pojo.Category;
 import cn.bookstore.pojo.CategoryBean;
-import javafx.scene.Parent;
+
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class CategoryServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");//处理响应编码
         String bs = request.getParameter("method");     //通过请求方法
+        String bs2 = request.getParameter("method2");     //预处理
         if ("findAll".equals(bs)){
             findAll(request,response);
         }else if ("addParent".equals(bs)){
@@ -47,6 +49,41 @@ public class CategoryServlet extends HttpServlet {
         }else if ("deleteChild".equals(bs)){
             deleteChild(request,response);
         }
+        if ("addChildPre".equals(bs2)){
+            addChildPre(request,response);
+        }else if ("editParentPre".equals(bs2)){
+            editParentPre(request,response);
+        }else if ("editChildPre".equals(bs2)){
+            editChildPre(request,response);
+        }
+
+    }
+
+    private void editChildPre(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String cid = request.getParameter("cid");
+        Category child = categoryService.load(cid);
+        request.setAttribute("child", child);
+        request.setAttribute("parents", categoryService.findParents());
+        request.getRequestDispatcher("../adminjsps/admin/category/edit2.jsp").forward(request,response);
+
+    }
+
+    private void editParentPre(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String cid = request.getParameter("cid");
+        Category parent = categoryService.load(cid);
+        request.setAttribute("parent", parent);
+        request.getRequestDispatcher("../adminjsps/admin/category/edit.jsp").forward(request,response);
+
+    }
+
+    private void addChildPre(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        /*任务是传递*/
+        String pid = request.getParameter("pid");//当前点击的父分类id
+        List<Category> parents = categoryService.findParents();         //没有子节点的父节点
+        request.setAttribute("pid", pid);
+        request.setAttribute("parents", parents);
+        request.getRequestDispatcher("../adminjsps/admin/category/add2.jsp").forward(request,response);
+
     }
 
     private void deleteChild(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -70,7 +107,10 @@ public class CategoryServlet extends HttpServlet {
             request.getRequestDispatcher("../adminjsps/admin/category/list.jsp").forward(request,response);
         } else {
             categoryService.deleteParent(cid);
-            findAll(request,response);
+            List<Category> parents = categoryService.findAll();
+            request.setAttribute("parents", parents);
+            request.getRequestDispatcher("../adminjsps/admin/category/list.jsp").forward(request,response);
+
         }
 
     }
@@ -91,7 +131,19 @@ public class CategoryServlet extends HttpServlet {
 
     }
 
-    private void editParent(HttpServletRequest request, HttpServletResponse response) {
+    private void editParent(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        String cid = request.getParameter("cid");
+        Category category = new Category();
+        String cname = request.getParameter("cname");
+        cname = new String(cname.getBytes("ISO-8859-1"),"UTF-8");
+        String desc = request.getParameter("desc");
+        category.setCname(cname);
+        category.setDesc(desc);
+        categoryService.edit(category);
+     //   request.setAttribute("child", categoryService.findByParent(cid)); //我修改父类失败了导致这里子类为空了，所以edit2可以出来数据了
+        List<Category> parents = categoryService.findAll();
+        request.getSession().setAttribute("parents",parents);
+        request.getRequestDispatcher("../adminjsps/admin/category/list.jsp").forward(request,response);
 
     }
 
@@ -99,23 +151,34 @@ public class CategoryServlet extends HttpServlet {
     private void addChild(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html;charset=gb2312");
         Category children = new Category();
-        children.setCid(CategoryBean.uuid());//设置cid
+        //获得表单数据
         String cname = request.getParameter("cname");
         cname = new String(cname.getBytes("ISO-8859-1"),"UTF-8");
         String desc = request.getParameter("desc");
         String pid = request.getParameter("pid"); //一级分类
+        Category parent = new Category();
+        parent.setCid(pid);
+        children.setCid(CategoryBean.uuid());
+        children.setParent(parent);
         children.setCname(cname);
         children.setDesc(desc);
+        //session预处理转发到add2的里面
         try {
             categoryService.add(children);
-            request.getSession().setAttribute("childrens",children);
-            categoryService.findAll();
-            response.sendRedirect("../adminjsps/admin/category/list.jsp");
+         //   request.getSession().setAttribute("childrens",children);
+            List<Category> parents = categoryService.findAll();
+            request.setAttribute("parents", parents);
+            request.getRequestDispatcher("../adminjsps/admin/category/list.jsp").forward(request,response);
+return;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+/*
         request.setAttribute("errinfo","添加二级分类失败");
+        List<Category> parents = categoryService.findAll();
+        request.setAttribute("parents", parents);
         request.getRequestDispatcher("../adminjsps/admin/category/list.jsp").forward(request,response);
+*/
 
     }
 
@@ -123,18 +186,19 @@ public class CategoryServlet extends HttpServlet {
     private void addParent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=gb2312");
-
         Category Parent = new Category();
         String cname = request.getParameter("cname");
+        cname = new String(cname.getBytes("ISO-8859-1"),"UTF-8");
         String desc = request.getParameter("desc");
         Parent.setCid(CategoryBean.uuid());//设置cid
         Parent.setCname(cname);
         Parent.setDesc(desc);
         try {
             categoryService.add(Parent);
-            request.getSession().setAttribute("parents",Parent);
-            categoryService.findAll();
-            response.sendRedirect("../adminjsps/admin/category/list.jsp");
+             List<Category> parents = categoryService.findAll();
+            request.getSession().setAttribute("parents",parents);
+          //  response.sendRedirect("../adminjsps/admin/category/list.jsp");
+            request.getRequestDispatcher("../adminjsps/admin/category/list.jsp").forward(request,response);
             return;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -147,8 +211,8 @@ public class CategoryServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        /*表单提交的请求也去get里了*/
         doGet(request, response);
-
     }
 
 
@@ -157,9 +221,7 @@ public class CategoryServlet extends HttpServlet {
     public void findAll(HttpServletRequest request, HttpServletResponse response)  throws ServletException, IOException {
         List<Category> parents = categoryService.findAll();
         request.setAttribute("parents", parents);
-        request.getRequestDispatcher("../adminjsps/admin/category/list.jsp").forward(request,response);
-
-
+        request.getRequestDispatcher("../adminjsps/admin/category/list.jsp").forward(request,response);//请求转发，有数据
     }
 
 }

@@ -4,9 +4,9 @@ package cn.bookstore.category.service.Impl;
 
 import cn.bookstore.category.dao.BookDao;
 import cn.bookstore.category.dao.Impl.BookDaoImpl;
-import cn.bookstore.category.service.BookService;
 
-public class BookServiceImpl implements BookService {
+
+public class BookServiceImpl implements BookDao {
 
 private BookDao bookDao = new BookDaoImpl();
     @Override

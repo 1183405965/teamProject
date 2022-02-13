@@ -62,4 +62,23 @@ public class Category {
         this.desc = desc;
         this.children = children;
     }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "cid='" + cid + '\'' +
+                ", cname='" + cname + '\'' +
+                ", parent=" + parent +
+                ", desc='" + desc + '\'' +
+                ", children=" + children +
+                '}';
+    }
+
+    public void add(String cid, String cname, Category parent, String desc, List<Category> children) {
+        this.cid = cid;
+        this.cname = cname;
+        this.parent = parent;
+        this.desc = desc;
+        this.children = children;
+    }
 }

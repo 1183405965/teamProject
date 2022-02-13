@@ -1,4 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page import="cn.bookstore.pojo.Category" %>
+<%@ page import="javafx.scene.control.Alert" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -32,6 +34,10 @@
 			return true;
 		}
 	</script>
+	  <%
+		  Category parents = (Category) session.getAttribute("parents");
+		  System.out.println(parents);
+	  %>
 <style type="text/css">
 	body {background: rgb(254,238,189);}
 </style>
@@ -41,15 +47,15 @@
     <h3>添加2级分类</h3>
     <h1></h1>
     <p style="font-weight: 900; color: red">${msg }</p>
-    <form action="<c:url value='/adminjsps/admin/category/list.jsp'/>" method="post" onsubmit="return checkForm()">
+    <form action="<c:url value='/admin/CategoryServlet?method=addChild&pid=${parent.cid }'/>" method="post" onsubmit="return checkForm()">
     	<input type="hidden" name="method" value='addChild'/>
     	分类名称：<input type="text" name="cname" id="cname"/><br/>
     	一级分类：<select name="pid" id="pid">   <%--一级分类cid--%>
     		<option value="">===选择1级分类===</option>
-<%-- 一级分类--%>
+
 		<c:forEach items="${parents }" var="parent">
-			<option value="${parent.cid }" <c:if test="${parent.cid eq pid }">selected="selected"</c:if> >
-					${parent.cname }
+			<option value="${parent.cid }" <c:if test="${parent.cid eq pid }">selected="selected"</c:if>>
+			${parent.cname }
 			</option>
 		</c:forEach>
 

@@ -15,8 +15,13 @@ public interface CategoryService {
     void add(Category category) throws SQLException;
     /*删除分类*/
     void deleteParent(String cid);
+    /*删除分类*/
+    void deleteChild(String cid);
     /*修改分类*/
     void edit(Category category);
 
 
+    List<Category> findParents();
+
+    Category load(String cid);
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -30,25 +31,15 @@
     		<th>操作</th>
     	</tr>
 
-
-<%--		<tr class="trOneLevel">
-			<td width="200px;">程序设计</td>
-			<td>程序设计相关分类</td>
-			<td width="200px;">
-				<a href="<c:url value='/adminjsps/admin/category/add2.jsp'/>">添加二级分类</a>
-				<a href="<c:url value='/adminjsps/admin/category/edit.jsp'/>">修改</a>
-				<a onclick="return confirm('您是否真要删除该一级分类？')" href="javascript:alert('删除一级分类成功！');">删除</a>
-			</td>
-		</tr>--%>
-
 <%--		<jsp:useBean id="parents" scope="session" type="java.util.List"/>--%>
+		<div class="items">
 		<c:forEach items="${parents}" var="parent">
 			<tr class="trOneLevel">
 				<td width="200px;">${parent.cname }</td>
 				<td>${parent.desc}</td>
-				<td width="200px;">			<%--/admin/CategoryServlet?method=addChild&pid=${parent.cid }--%>
-					<a href="<c:url value='/adminjsps/admin/category/add2.jsp'/>">添加二级分类</a>
-					<a href="<c:url value='/adminjsps/admin/category/edit.jsp'/>">修改</a>
+				<td width="200px;">			<%--添加和修改的准备工作，将数据传过去，将页面--%>
+					<a href="<c:url value='/admin/CategoryServlet?method2=addChildPre&pid=${parent.cid }'/>" >添加二级分类</a>
+					<a href="<c:url value='/admin/CategoryServlet?method2=editParentPre&cid=${parent.cid }'/>">修改</a>
 					<a onclick="return confirm('您是否真要删除该一级分类？')" href="<c:url value='/admin/CategoryServlet?method=deleteParent&cid=${parent.cid }'/>">删除</a>
 				</td>
 			</tr>
@@ -58,12 +49,13 @@
 					<td>${child.cname }</td>
 					<td>${child.desc }</td>
 					<td width="200px;" align="right">
-						<a href="<c:url value='/adminjsps/admin/category/edit2.jsp'/>">修改</a>
+						<a href="<c:url value='/admin/CategoryServlet?method2=editChildPre&cid=${child.cid }'/>">修改</a>
 						<a onclick="return confirm('您是否真要删除该二级分类？')" href="<c:url value='/admin/CategoryServlet?method=deleteChild&cid=${child.cid }'/>">删除</a>
 					</td>
 				</tr>
 			</c:forEach>
 		</c:forEach>
+		</div>
 
     </table>
   </body>

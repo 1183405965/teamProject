@@ -1,10 +1,9 @@
 package cn.bookstore.category.dao.Impl;
 
 import cn.bookstore.category.dao.BaseDao;
-import cn.bookstore.category.dao.BookDao;
+
 import cn.bookstore.category.dao.CategoryDao;
-import cn.bookstore.category.service.BookService;
-import cn.bookstore.category.service.Impl.BookServiceImpl;
+
 import cn.bookstore.pojo.Category;
 import cn.bookstore.pojo.CategoryBean;
 import cn.bookstore.tools.DBPool;
@@ -31,7 +30,52 @@ public class CategoryDaoImpl implements CategoryDao {
         return categoryList; //
     }
 /*把一个Map中的数据映射带Category中--在CategoryBean中*/
+    /*只查找父类的*/
+public List<Category> findParents()  {
+    /*
+     * 1. 查询出所有一级分类
+     */
+    Connection connection = new DBPool().getConnection();
+    String sql = "select * from t_category where pid is null order by orderBy";
+    ResultSet mapList = null;
+    List<Category> list = new ArrayList();
+    try {
+        connection.setAutoCommit(false);
+        mapList = baseDao.query(connection,sql);
+        connection.commit();
+        while (mapList != null && mapList.next()) {
+            list.add(new Category(mapList.getString(1),mapList.getString(2),null,mapList.getString(4),  findByParent(mapList.getString(1)) ));
+        }
+        if (mapList==null){
+            return null;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return list;
+}
 
+    @Override
+    public Category load(String cid) {
+        String sql = "select * from t_category where cid = '"+cid+"'";
+        Connection connection = new DBPool().getConnection();
+        Category category = new Category();
+        try {
+            connection.setAutoCommit(false);
+            category = baseDao.load(connection, sql);
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                connection.close();
+                connection = null;
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
+        }
+        return  category;
+    }
 
     @Override
     public List<Category> findAll() throws SQLException {       /*查询所有pid不为空的父级(一级分类)*/
@@ -100,7 +144,7 @@ public class CategoryDaoImpl implements CategoryDao {
     /*一级分类没有父分类，二级分类有父分类*/
 
     @Override
-    public void add(Category category) throws SQLException {
+    public void add(Category category)  {
         String sql = "insert into t_category(cid,cname,pid,`desc`) values(?,?,?,?)";
         Connection connection = new DBPool().getConnection();
         /* 因为一级分类，没有parent，而二级分类有！要兼容两次分类，所以需要判断         */
@@ -115,12 +159,13 @@ public class CategoryDaoImpl implements CategoryDao {
             connection.commit();
             //回滚
         } catch (SQLException e) {
+
             try {
                 connection.rollback();
-            } catch (SQLException e1) {
-                throw e1;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             }
-            throw e;
+
         }finally {
             try {
                 connection.close();
@@ -131,12 +176,14 @@ public class CategoryDaoImpl implements CategoryDao {
         }
     }
 
+
+
     @Override
     public void deleteParent(String cid) {
         /*根据id删除id*/
         String sql = "delete from t_category where cid = '"+cid+"'";
         Connection connection = new DBPool().getConnection();
-/*看出下面是否有子类*/
+        /*看出下面是否有子类*/
         try {
             connection.setAutoCommit(false);
             baseDao.del(connection,sql);
@@ -160,8 +207,35 @@ public class CategoryDaoImpl implements CategoryDao {
     }
 
     @Override
+    public void deleteChild(String cid) {
+        /*根据id删除id*/
+        String sql = "delete from t_category where cid = '"+cid+"'";
+        Connection connection = new DBPool().getConnection();
+        /*看出下面是否有子类*/
+        try {
+            connection.setAutoCommit(false);
+            baseDao.del(connection,sql);
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            connection = null;
+        }
+    }
+
+    @Override
     public void edit(Category category) {
-        String sql = "update good set cname=?, pid=?, `desc`=? where cid=? ;";
+        String sql = "update t_category set cname=?, pid=?, `desc`=? where cid=? ;";
         Connection connection = new DBPool().getConnection();
         try {
             connection.setAutoCommit(false);
