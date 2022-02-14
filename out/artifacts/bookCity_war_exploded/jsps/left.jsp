@@ -22,11 +22,11 @@
 	<link rel="stylesheet" type="text/css" href="<c:url value='/jsps/css/left.css'/>">
 <script language="javascript">
 var bar = new Q6MenuBar("bar", "网上书城");
-$(function() {
+$(function() {//jquery的函数调用，$（）是jquery的函数，function是参数也是一个函数，该函数会在页面完后执行，用来做初始化
 	bar.colorStyle = 4;
 	bar.config.imgDir = "<c:url value='/menu/img/'/>";
 	bar.config.radioButton=true;
-
+//以下代码需要使用jstl的标签，结合一二级的菜单结构来动态生成
 	bar.add("程序设计", "Java Javascript", "/jsps/book/list.jsp", "body");
 	bar.add("程序设计", "JSP", "/jsps/book/list.jsp", "body");
 	bar.add("程序设计", "C C++ VC VC++", "/jsps/book/list.jsp", "body");
@@ -42,7 +42,12 @@ $(function() {
 	bar.add("操作系统/系统开发", "Windows", "/jsps/book/list.jsp", "body");
 	bar.add("操作系统/系统开发", "Linux", "/jsps/book/list.jsp", "body");
 	bar.add("操作系统/系统开发", "系统开发", "/jsps/book/list.jsp", "body");
-	
+	<%--
+        <c:forEach items="一级分类的pojo集合" var="item1">
+        <c:forEach items="item.二级分类属性" var="item1">
+        bar.add("item1.name", "item2.name", "list.jsp", "body");
+        </c:forEach>
+        </c:forEach> --%>
 	$("#menu").html(bar.toString());
 });
 </script>

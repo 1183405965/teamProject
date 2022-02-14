@@ -50,13 +50,13 @@ function editForm() {
 		return false;
 	}
 	
-	var method = $("<input>").attr("type", "hidden").attr("name", "method").attr("value", "edit");
+	var method = $("<input>").attr("type", "hidden").attr("name", "bs").attr("value", "edit");
 	$("#form").append(method);
 	$("#form").submit();
 }
 
 function delForm() {
-	var method = $("<input>").attr("type", "hidden").attr("name", "method").attr("value", "delete");
+	var method = $("<input>").attr("type", "hidden").attr("name", "bs").attr("value", "delete");
 	$("#form").append(method);
 	$("#form").submit();
 }

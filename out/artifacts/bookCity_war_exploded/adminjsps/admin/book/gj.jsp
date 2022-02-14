@@ -24,7 +24,7 @@
   </head>
   
   <body>
-  <form action="<c:url value='/adminjsps/admin/book/list.jsp'/>" method="get">
+  <form action="${pageContext.request.contextPath}/BookServlet?bs=queryByCri" method="post">
   	<input type="hidden" name="method" value="findByCriteria"/>
 <table align="center">
 	<tr>

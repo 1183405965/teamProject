@@ -25,23 +25,28 @@ function load() {
 	bar.colorStyle = 2;
 	bar.config.imgDir = "<c:url value='/menu/img/'/>";
 	bar.config.radioButton=true;
+	//
+	//bar.add("程序设计", "Java Javascript", "${pageContext.request.contextPath}/adminjsps/admin/book/list.jsp", "body");
+	// bar.add("程序设计", "JSP", "list.jsp", "body");
+	// bar.add("程序设计", "C C++ VC VC++", "list.jsp", "body");
+	//
+	// bar.add("办公室用书", "微软Office", "list.jsp", "body");
+	// bar.add("办公室用书", "计算机初级入门", "list.jsp", "body");
+	//
+	// bar.add("图形 图像 多媒体", "Photoshop", "list.jsp", "body");
+	// bar.add("图形 图像 多媒体", "3DS MAX", "list.jsp", "body");
+	// bar.add("图形 图像 多媒体", "网页设计", "list.jsp", "body");
+	// bar.add("图形 图像 多媒体", "Flush", "list.jsp", "body");
+	//
+	// bar.add("操作系统/系统开发", "Windows", "list.jsp", "body");
+	// bar.add("操作系统/系统开发", "Linux", "list.jsp", "body");
+	// bar.add("操作系统/系统开发", "系统开发", "list.jsp", "body");
 
-	bar.add("程序设计", "Java Javascript", "/goods/adminjsps/admin/book/list.jsp", "body");
-	bar.add("程序设计", "JSP", "/goods/jsps/book/list.jsp", "body");
-	bar.add("程序设计", "C C++ VC VC++", "/goods/adminjsps/admin/book/list.jsp", "body");
-	
-	bar.add("办公室用书", "微软Office", "/goods/adminjsps/admin/book/list.jsp", "body");
-	bar.add("办公室用书", "计算机初级入门", "/goods/jsps/book/list.jsp", "body");
-	
-	bar.add("图形 图像 多媒体", "Photoshop", "/goods/adminjsps/admin/book/list.jsp", "body");
-	bar.add("图形 图像 多媒体", "3DS MAX", "/goods/adminjsps/admin/book/list.jsp", "body");
-	bar.add("图形 图像 多媒体", "网页设计", "/goods/adminjsps/admin/book/list.jsp", "body");
-	bar.add("图形 图像 多媒体", "Flush", "/goods/adminjsps/admin/book/list.jsp", "body");
-	
-	bar.add("操作系统/系统开发", "Windows", "/goods/adminjsps/admin/book/list.jsp", "body");
-	bar.add("操作系统/系统开发", "Linux", "/goods/adminjsps/admin/book/list.jsp", "body");
-	bar.add("操作系统/系统开发", "系统开发", "/goods/adminjsps/admin/book/list.jsp", "body");
-	  
+    <c:forEach items="${parents}" var="parent">
+	<c:forEach items="${parent.children}" var="child">
+	bar.add("${parent.cname}", "${child.cname}", "${pageContext.request.contextPath}/BookServlet?bs=findPage&cid=${child.cid}", "body");
+	</c:forEach>
+	</c:forEach>
 	var d = document.getElementById("menu");
 	d.innerHTML = bar.toString();
 }

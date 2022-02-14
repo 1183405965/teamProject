@@ -1,4 +1,6 @@
 package cn.team.bookstore.pojo;
+
+
 //管理员
 public class Admin {
     private String adminId;     //主键id
@@ -26,6 +28,12 @@ public class Admin {
     }
 
     public void setAdminpwd(String adminpwd) {
+        this.adminpwd = adminpwd;
+    }
+
+    public Admin(String adminId, String adminname, String adminpwd) {
+        this.adminId = adminId;
+        this.adminname = adminname;
         this.adminpwd = adminpwd;
     }
 

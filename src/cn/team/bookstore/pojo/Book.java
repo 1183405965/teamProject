@@ -154,4 +154,27 @@ public class Book {
     public void setImage_b(String image_b) {
         this.image_b = image_b;
     }
+
+    public Book(String bid, String bname, String author, double price, double currPrice, double discount, String press, String publishtime, int edition, int pageNum, int wordNum, String printtime, int booksize, String paper, Category category, String image_w, String image_b) {
+        this.bid = bid;
+        this.bname = bname;
+        this.author = author;
+        this.price = price;
+        this.currPrice = currPrice;
+        this.discount = discount;
+        this.press = press;
+        this.publishtime = publishtime;
+        this.edition = edition;
+        this.pageNum = pageNum;
+        this.wordNum = wordNum;
+        this.printtime = printtime;
+        this.booksize = booksize;
+        this.paper = paper;
+        this.category = category;
+        this.image_w = image_w;
+        this.image_b = image_b;
+    }
+
+    public Book() {
+    }
 }

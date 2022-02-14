@@ -12,6 +12,7 @@
     <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/dao/impl/GoodDaoImp.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/dao/impl/UserDaoImp.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/dao/tools/DBPool.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/dao/tools/randomNumber.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/filter/CarFilter.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/filter/EncodingFilter.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/cn/team/bookstore/filter/PermissionFilter.java" charset="GBK" />

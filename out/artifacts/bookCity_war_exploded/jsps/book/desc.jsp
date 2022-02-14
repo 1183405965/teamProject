@@ -17,7 +17,7 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
 	<link rel="stylesheet" type="text/css" href="<c:url value='/jsps/pager/pager.css'/>" />
-    <script type="text/javascript" src="<c:url value='/jsps/pager/pager.js'/>"></script>
+    <script type="text/javascript" src="<c:url value='/jsps/pager/pager.jsp'/>"></script>
 	<script src="<c:url value='/jquery/jquery-1.5.1.js'/>"></script>
 	
 	<link rel="stylesheet" type="text/css" href="<c:url value='/jsps/css/book/desc.css'/>">
@@ -66,7 +66,7 @@
 				<input type="hidden" name="bid" value=""/>
   				我要买：<input id="cnt" style="width: 40px;text-align: center;" type="text" name="quantity" value="1"/>件
   			</form>
-  			<a id="btn" href="javascript:$('#form1').submit();"></a>
+  			<a id="btn" href="javascript:$('#form1').submit();">添加到购物车</a>
   		</div>	
 	</div>
   </div>

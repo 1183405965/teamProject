@@ -48,4 +48,12 @@ public class Category {
     public void setChildren(List<Category> children) {
         this.children = children;
     }
+
+    public Category(String cid, String cname, Category parent, String desc, List<Category> children) {
+        this.cid = cid;
+        this.cname = cname;
+        this.parent = parent;
+        this.desc = desc;
+        this.children = children;
+    }
 }

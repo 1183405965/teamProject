@@ -1,18 +1,28 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page import="cn.team.bookstore.pojo.PageBean" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script type="text/javascript">
 	function _go() {
-		var pc = $("#pageCode").val();//获取文本框中的当前页码
+		var pc = $("#pageNow").val();//获取文本框中的当前页码
 		if(!/^[1-9]\d*$/.test(pc)) {//对当前页码进行整数校验
 			alert('请输入正确的页码！');
 			return;
 		}
-		if(pc > 10) {//判断当前页码是否大于最大页
+		if(pc > ${PageBean.totalPage}) {//判断当前页码是否大于最大页
 			alert('请输入正确的页码！');
 			return;
 		}
-		location = "";
+		location = "${PageBean.url.concat("&pageNow=")}"+pc;
 	}
+    window.onload = function(){
+        var as=document.getElementsByClassName("aBtn");
+        for (let i = 0; i < as.length; i++) {
+            as[i].style.background="#FFFFFF";
+            if (i==${PageBean.varPageNo}){
+                as[i].style.background="#FE7C2C";
+            }
+        }
+    }
 </script>
 
 
@@ -21,7 +31,7 @@
     <%--上一页 --%>
 
         <span class="spanBtnDisabled">上一页</span>
-        <a href="" class="aBtn bold">上一页</a>
+        <a href="${PageBean.url.concat("&pageNow=").concat(PageBean.varPageNo-1)}" class="aBtn bold">上一页</a>
 
     
     <%-- 计算begin和end --%>
@@ -32,27 +42,30 @@
 
     
     <%-- 显示页码列表 --%>
-          <span class="spanBtnSelect">1</span>
-          <a href="" class="aBtn">2</a>
-          <a href="" class="aBtn">3</a>
-          <a href="" class="aBtn">4</a>
-          <a href="" class="aBtn">5</a>
-          <a href="" class="aBtn">6</a>
+<%--          <span class="spanBtnSelect">--%>
+              <a href="${PageBean.url.concat("&pageNow=1")}" class="aBtn">1</a>
+<%--          </span>--%>
+          <a href="${PageBean.url.concat("&pageNow=2")}" class="aBtn">2</a>
+          <a href="${PageBean.url.concat("&pageNow=3")}" class="aBtn">3</a>
+          <a href="${PageBean.url.concat("&pageNow=4")}" class="aBtn">4</a>
+          <a href="${PageBean.url.concat("&pageNow=5")}" class="aBtn">5</a>
+          <a href="${PageBean.url.concat("&pageNow=6")}" class="aBtn">6</a>
 
-    
     <%-- 显示点点点 --%>
       <span class="spanApostrophe">...</span> 
 
     
      <%--下一页 --%>
         <span class="spanBtnDisabled">下一页</span>
-        <a href="" class="aBtn bold">下一页</a> 
+        <a href="${PageBean.url.concat("&pageNow=").concat(PageBean.varPageNo+1)}" class="aBtn bold">下一页</a>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     
     <%-- 共N页 到M页 --%>
-    <span>共12页</span>
+<%--    <span><% PageBean pageBean=(PageBean)request.getSession().getAttribute("PageBean");--%>
+<%--    %>--%>
+<%--    <%pageBean.getTotalPage();%></span>--%>
     <span>到</span>
-    <input type="text" class="inputPageCode" id="pageCode" value="1"/>
+    <input type="text" class="inputPageCode" id="pageNow" value="${PageBean.varPageNo}"/>
     <span>页</span>
     <a href="javascript:_go();" class="aSubmit">确定</a>
   </div>
